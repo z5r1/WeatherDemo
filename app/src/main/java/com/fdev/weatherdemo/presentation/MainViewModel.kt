@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,6 +32,10 @@ class MainViewModel @Inject constructor(private val getWeatherUseCase: GetWeathe
 
     private val _searchFieldValue = MutableStateFlow(DEFAULT_SEARCH_CITY)
     val searchFieldValue = _searchFieldValue.asStateFlow()
+
+    init {
+        searchWeather()
+    }
 
     fun updateSearchField(input: String) {
         _searchFieldValue.value = input
@@ -45,13 +50,9 @@ class MainViewModel @Inject constructor(private val getWeatherUseCase: GetWeathe
                     return@filter data.isNotEmpty()
                 }
                 .distinctUntilChanged()
-                .flowOn(Dispatchers.Default)
-                .flatMapLatest { query ->
+                .mapLatest { query ->
                     _weatherDataState.value = WeatherDataState.Loading
-                    getWeatherUseCase.loadWeatherData(query)
-                        .catch {
-                            emitAll(flowOf(null))
-                        }
+                     getWeatherUseCase.loadWeatherData(query)
                 }
                 .collect { result ->
                     _weatherDataState.value = if (result != null) {

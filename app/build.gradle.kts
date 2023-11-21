@@ -5,7 +5,9 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
-val HOST_URL = "\"https://rapidapi.com/weatherapi/api/weatherapi-com/\""
+val RAPID_API_HOST = "\"weatherapi-com.p.rapidapi.com\""
+val RAPID_API_KEY = "\"398ad685b5msh5f13607cc34cf94p129f60jsnc15273d03c1a\""
+val HOST_URL = "\"https://weatherapi-com.p.rapidapi.com\""
 
 android {
     namespace = "com.fdev.weatherdemo"
@@ -19,19 +21,19 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "RAPID_API_HOST", RAPID_API_HOST)
+        buildConfigField("String", "RAPID_API_KEY", RAPID_API_KEY)
+        buildConfigField("String", "HOST_URL", HOST_URL)
     }
 
     buildTypes {
         release {
-            buildConfigField("String", "HOST_URL", HOST_URL)
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        debug {
-            buildConfigField("String", "HOST_URL", HOST_URL)
         }
     }
     compileOptions {

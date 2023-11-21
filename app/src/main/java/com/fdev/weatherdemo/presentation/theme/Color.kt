@@ -2,7 +2,6 @@ package com.fdev.weatherdemo.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple700 = Color(0xFF3700B3)
 val TransparentDarkBlue = Color(0x80252B35)
 val HighTransparentDarkBlue = Color(0xE6252B35)
 val WhiteTransparent = Color(0x40FFFFFF)
@@ -13,4 +12,5 @@ val Black = Color(0xFF000000)
 val DarkBlue = Color(0xFF252B35)
 val Blue = Color(0xFF2D5F7A)
 val LightBlue = Color(0xFF5D89A6)
-val Background = Color(0xFFB1E3F9)
+val LightBackground = Color(0xFFECF6FA)
+val Background = Color(0xFF87D7FA)

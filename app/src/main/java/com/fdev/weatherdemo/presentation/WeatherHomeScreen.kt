@@ -23,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -36,6 +37,7 @@ import com.fdev.weatherdemo.presentation.theme.Background
 import com.fdev.weatherdemo.presentation.theme.Blue
 import com.fdev.weatherdemo.presentation.theme.DefaultHzMargin
 import com.fdev.weatherdemo.presentation.theme.DefaultVtMargin
+import com.fdev.weatherdemo.presentation.theme.LightBackground
 import com.fdev.weatherdemo.presentation.theme.Shapes
 import com.fdev.weatherdemo.presentation.theme.White
 
@@ -48,11 +50,16 @@ fun WeatherHomeScreen(viewModel: MainViewModel) {
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
-            .navigationBarsPadding(),
-        containerColor = Background,
+            .navigationBarsPadding().background(brush = Brush.verticalGradient(
+                colors = listOf(
+                    LightBackground,
+                    Background
+                )
+            )),
+        containerColor = Color.Transparent,
         topBar = {
             TextField(
-                value = viewModel.searchFieldValue.value,
+                value = viewModel.searchFieldValue.collectAsState().value,
                 onValueChange = {
                     viewModel.updateSearchField(it)
                 },
