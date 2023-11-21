@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -51,7 +52,7 @@ fun WeatherHomeScreen(viewModel: MainViewModel) {
         containerColor = Background,
         topBar = {
             TextField(
-                value = viewModel.searchFieldValue,
+                value = viewModel.searchFieldValue.value,
                 onValueChange = {
                     viewModel.updateSearchField(it)
                 },
@@ -72,12 +73,14 @@ fun WeatherHomeScreen(viewModel: MainViewModel) {
                     )
                 },
                 trailingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_search),
-                        contentDescription = null,
-                        tint = Blue,
-                        modifier = Modifier.clickable { viewModel.searchWeather() }
-                    )
+                    IconButton(onClick = { viewModel.searchWeather()  }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_search),
+                            contentDescription = null,
+                            tint = Blue,
+                            modifier = Modifier.clickable { viewModel.searchWeather() }
+                        )
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
