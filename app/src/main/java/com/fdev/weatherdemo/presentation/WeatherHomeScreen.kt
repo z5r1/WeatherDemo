@@ -30,6 +30,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.fdev.weatherdemo.R
 import com.fdev.weatherdemo.data.entity.ForecastData
 import com.fdev.weatherdemo.data.entity.WeatherData
@@ -118,6 +120,7 @@ fun WeatherHomeScreen(viewModel: MainViewModel) {
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun CurrentWeatherSection(modifier: Modifier, weatherData: WeatherData) {
     Column(
@@ -130,16 +133,23 @@ private fun CurrentWeatherSection(modifier: Modifier, weatherData: WeatherData) 
         Text(
             modifier = Modifier
                 .wrapContentSize(),
-            text = stringResource(R.string.temperature, weatherData.currentData.temp.toString()),
-            fontSize = 80.sp,
+            text = weatherData.locationData.name,
+            fontSize = 30.sp,
             fontWeight = FontWeight.SemiBold,
         )
 
-        Image(
+        Text(
             modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
-            painter = painterResource(id = R.drawable.ic_cloudy_day),
+                .wrapContentSize(),
+            text = stringResource(R.string.temperature, weatherData.currentData.temp.toString()),
+            fontSize = 50.sp,
+            fontWeight = FontWeight.SemiBold,
+        )
+
+        GlideImage(modifier = Modifier
+            .fillMaxSize()
+            .weight(1f),
+            model = weatherData.currentData.condition?.icon,
             contentDescription = null,
         )
 
