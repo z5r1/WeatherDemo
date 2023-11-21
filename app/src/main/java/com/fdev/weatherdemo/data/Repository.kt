@@ -12,8 +12,7 @@ class Repository @Inject constructor(
 ) {
     suspend fun loadWeatherData(query: String): WeatherData? {
         return try {
-            val response = weatherApi.getWeatherDataByCityName(query)
-            val weatherData = response.weatherData
+            val weatherData = weatherApi.getWeatherFewDaysByCityName(query)
             localDataSource.saveWeatherData(weatherData)
             weatherData
         } catch (e: Exception) {

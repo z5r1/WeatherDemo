@@ -11,15 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fdev.weatherdemo.R
+import com.fdev.weatherdemo.data.entity.ForecastData
 import com.fdev.weatherdemo.presentation.theme.DefaultHzMargin
+import com.fdev.weatherdemo.utils.DateHelper
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun WeatherNextDaysItem() {
+fun WeatherNextDaysItem(forecastData: ForecastData) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -36,8 +41,8 @@ fun WeatherNextDaysItem() {
             modifier = Modifier
                 .align(alignment = Alignment.CenterVertically)
                 .padding(start = 10.dp),
-            text = "25°",
-            fontSize = 20.sp
+            text = stringResource(R.string.temperature, forecastData.day.avgTemp.toString()),
+            fontSize = 18.sp
         )
 
         Text(
@@ -45,8 +50,8 @@ fun WeatherNextDaysItem() {
                 .weight(1f)
                 .align(alignment = Alignment.CenterVertically)
                 .padding(start = 16.dp),
-            text = "Saratov",
-            fontSize = 20.sp
+            text = DateHelper.getFormattedDate(forecastData.date),
+            fontSize = 16.sp
         )
     }
 }

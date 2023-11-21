@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">WeatherDemo</string>
     <string name="error_loading">WeatherDemo</string>
+    <string name="temperature">%1$s°C</string>
+    <string name="min_temperature">Min °C</string>
+    <string name="avg_temperature">Avg °C</string>
+    <string name="max_temperature">Max °C</string>
+    <string name="avghumidity">Avghumidity</string>
+    <string name="wind_speed">Wind speed</string>
 </resources>

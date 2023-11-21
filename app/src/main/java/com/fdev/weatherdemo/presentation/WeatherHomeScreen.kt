@@ -3,7 +3,6 @@ package com.fdev.weatherdemo.presentation
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,11 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fdev.weatherdemo.R
+import com.fdev.weatherdemo.data.entity.ForecastData
+import com.fdev.weatherdemo.data.entity.WeatherData
 import com.fdev.weatherdemo.presentation.component.WeatherNextDaysItem
 import com.fdev.weatherdemo.presentation.component.WeatherValueItem
 import com.fdev.weatherdemo.presentation.theme.Background
@@ -40,6 +42,7 @@ import com.fdev.weatherdemo.presentation.theme.DefaultVtMargin
 import com.fdev.weatherdemo.presentation.theme.LightBackground
 import com.fdev.weatherdemo.presentation.theme.Shapes
 import com.fdev.weatherdemo.presentation.theme.White
+import com.fdev.weatherdemo.presentation.weatherMain.WeatherDataState
 
 //@Preview(showBackground = true)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -85,7 +88,6 @@ fun WeatherHomeScreen(viewModel: MainViewModel) {
                             painter = painterResource(id = R.drawable.ic_search),
                             contentDescription = null,
                             tint = Blue,
-                            modifier = Modifier.clickable { viewModel.searchWeather() }
                         )
                     }
                 },
@@ -95,17 +97,29 @@ fun WeatherHomeScreen(viewModel: MainViewModel) {
             )
         }) {
         Column {
-            CurrentWeatherSection(
-                Modifier
-                    .weight(1f)
-            )
-            WeatherNextDaysSection()
+            when (currentWeatherState) {
+                is WeatherDataState.Loading -> {
+
+                }
+                is WeatherDataState.Success -> {
+                    val data = (currentWeatherState as WeatherDataState.Success).weatherData
+                    CurrentWeatherSection(
+                        Modifier
+                            .weight(1f),
+                        data
+                    )
+                    WeatherNextDaysSection(data.forecast.days)
+                }
+                is WeatherDataState.Error -> {
+
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun CurrentWeatherSection(modifier: Modifier) {
+private fun CurrentWeatherSection(modifier: Modifier, weatherData: WeatherData) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -116,8 +130,8 @@ private fun CurrentWeatherSection(modifier: Modifier) {
         Text(
             modifier = Modifier
                 .wrapContentSize(),
-            text = "25°C",
-            fontSize = 88.sp,
+            text = stringResource(R.string.temperature, weatherData.currentData.temp.toString()),
+            fontSize = 80.sp,
             fontWeight = FontWeight.SemiBold,
         )
 
@@ -139,8 +153,8 @@ private fun CurrentWeatherSection(modifier: Modifier) {
                 .weight(1f)
                 .wrapContentSize()
 
-            WeatherValueItem(modifierTemperature)
-            WeatherValueItem(modifierTemperature)
+            WeatherValueItem(modifierTemperature, weatherData.nowForecast.day.avghumidity, R.string.avghumidity)
+            WeatherValueItem(modifierTemperature, weatherData.nowForecast.day.maxwindKph, R.string.wind_speed)
         }
 
         Row(
@@ -154,15 +168,27 @@ private fun CurrentWeatherSection(modifier: Modifier) {
                 .weight(1f)
                 .wrapContentSize()
 
-            WeatherValueItem(modifierTemperature)
-            WeatherValueItem(modifierTemperature)
-            WeatherValueItem(modifierTemperature)
+            WeatherValueItem(
+                modifierTemperature,
+                weatherData.nowForecast.day.minTemp,
+                R.string.min_temperature
+            )
+            WeatherValueItem(
+                modifierTemperature,
+                weatherData.nowForecast.day.avgTemp,
+                R.string.avg_temperature
+            )
+            WeatherValueItem(
+                modifierTemperature,
+                weatherData.nowForecast.day.maxTemp,
+                R.string.max_temperature
+            )
         }
     }
 }
 
 @Composable
-private fun WeatherNextDaysSection() {
+private fun WeatherNextDaysSection(days: List<ForecastData>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -178,8 +204,8 @@ private fun WeatherNextDaysSection() {
                 .padding(bottom = 10.dp),
             text = "Next days",
         )
-        WeatherNextDaysItem()
-        WeatherNextDaysItem()
-        WeatherNextDaysItem()
+        days.forEach {
+            WeatherNextDaysItem(it)
+        }
     }
 }

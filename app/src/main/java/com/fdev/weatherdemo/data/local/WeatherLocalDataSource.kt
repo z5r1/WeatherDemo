@@ -7,7 +7,7 @@ class WeatherLocalDataSource {
         return null
     }
 
-    fun saveWeatherData(response: WeatherData?) {
+    fun saveWeatherData(response: WeatherData) {
 
     }
 }
