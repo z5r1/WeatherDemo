@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">WeatherDemo</string>
-    <string name="error_loading">WeatherDemo</string>
+    <string name="error_loading">Данные о погоде по этому насленному пункту не найдены или в данный момент не доступны</string>
     <string name="temperature">%1$s°C</string>
-    <string name="min_temperature">Min °C</string>
-    <string name="avg_temperature">Avg °C</string>
-    <string name="max_temperature">Max °C</string>
-    <string name="avghumidity">Avghumidity</string>
-    <string name="wind_speed">Wind speed</string>
+    <string name="min_temperature">Мин °C</string>
+    <string name="avg_temperature">Средняя °C</string>
+    <string name="max_temperature">Макс °C</string>
+    <string name="avghumidity">Влажность</string>
+    <string name="wind_speed">Скорость ветра</string>
 </resources>

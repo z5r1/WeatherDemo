@@ -1,23 +1,21 @@
 package com.fdev.weatherdemo.presentation
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.fdev.weatherdemo.presentation.navigation.NavGraph
+import com.fdev.weatherdemo.presentation.theme.Background
 import com.fdev.weatherdemo.presentation.theme.WeatherDemoViewTheme
-import com.fdev.weatherdemo.presentation.theme.White
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity()   {
@@ -26,16 +24,21 @@ class MainActivity: ComponentActivity()   {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.searchWeather()
+            }
+        }
+
         setContent {
             WeatherDemoViewTheme {
-//                val systemUiController = enableEdgeToEdge()
-//                SideEffect {
-//                    systemUiController.setStatusBarColor(color = Color.Transparent)
-//                }
                 Surface(
                     modifier = Modifier.fillMaxSize(),
+                    contentColor = Background,
+                    color = Background
                 ) {
-                    WeatherHomeScreen(mainViewModel)
+                    NavGraph(mainViewModel)
                 }
             }
         }

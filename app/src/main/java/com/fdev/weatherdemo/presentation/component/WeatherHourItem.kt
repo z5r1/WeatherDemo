@@ -2,11 +2,13 @@
 
 package com.fdev.weatherdemo.presentation.component
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,41 +19,36 @@ import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.fdev.weatherdemo.R
-import com.fdev.weatherdemo.data.entity.ForecastData
-import com.fdev.weatherdemo.presentation.screens.weatherHome.OnWeatherSelectListener
+import com.fdev.weatherdemo.data.entity.Hour
 import com.fdev.weatherdemo.presentation.theme.DefaultHzMargin
+import com.fdev.weatherdemo.presentation.theme.Shapes
+import com.fdev.weatherdemo.presentation.theme.White
 import com.fdev.weatherdemo.utils.DateHelper
 
-//@Preview(showBackground = true)
 @Composable
-fun WeatherNextDaysItem(forecastData: ForecastData, listener: OnWeatherSelectListener) {
-    Row(
+fun WeatherHourItem(forecastData: Hour) {
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable { listener.onSelectDay(forecastData) }
-            .padding(horizontal = DefaultHzMargin)
+            .wrapContentSize()
+            .background(color = White, shape = Shapes.medium)
+            .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
         Text(
-            modifier = Modifier
-                .weight(1f)
-                .align(alignment = Alignment.CenterVertically)
-                .padding(start = 16.dp),
-            text = DateHelper.getFormattedDateForDays(forecastData.date),
+            modifier = Modifier,
+            text = DateHelper.getFormattedDateForHours(forecastData.time),
             fontSize = 16.sp
-        )
-
-        Text(
-            modifier = Modifier
-                .align(alignment = Alignment.CenterVertically)
-                .padding(horizontal = 10.dp),
-            text = stringResource(R.string.temperature, forecastData.day.avgTemp.toString()),
-            fontSize = 18.sp
         )
 
         GlideImage(
             modifier = Modifier.size(48.dp),
-            model = forecastData.day.condition?.icon,
+            model = forecastData.condition?.icon,
             contentDescription = null,
+        )
+
+        Text(
+            modifier = Modifier,
+            text = stringResource(R.string.temperature, forecastData.temp.toString()),
+            fontSize = 18.sp
         )
     }
 }

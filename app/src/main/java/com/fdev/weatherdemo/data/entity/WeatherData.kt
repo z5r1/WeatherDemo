@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class WeatherData(
     @SerializedName("location") val locationData: LocationData,
-    @SerializedName("current") val currentData: CurrentForecastData,
+    @SerializedName("current") val currentWeather: CurrentForecastData,
     @SerializedName("forecast") val forecast: Forecast,
 ) {
     val nowForecast: ForecastData get() = forecast.days.first()
