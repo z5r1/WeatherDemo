@@ -1,10 +1,9 @@
 package com.fdev.weatherdemo.di
 
 import android.content.Context
-import android.provider.Settings
+import android.content.SharedPreferences
 import com.fdev.weatherdemo.BuildConfig
 import com.fdev.weatherdemo.data.Repository
-import com.fdev.weatherdemo.data.local.WeatherDatabase
 import com.fdev.weatherdemo.data.local.WeatherLocalDataSource
 import com.fdev.weatherdemo.data.remote.IWeatherApi
 import com.fdev.weatherdemo.data.remote.WeatherApi
@@ -14,7 +13,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
@@ -22,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+private const val SPREFS = "SPREFS"
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -67,9 +66,15 @@ object AppModule {
         return GetWeatherUseCase(repository)
     }
 
+    @Provides
+    fun provideBasicSPrefs(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences(SPREFS, Context.MODE_PRIVATE)
+    }
+
     @Singleton
     @Provides
-    fun bindWeatherLocalDataSource(): WeatherLocalDataSource {
-        return WeatherLocalDataSource()
+    fun bindWeatherLocalDataSource(prefs: SharedPreferences): WeatherLocalDataSource {
+        return WeatherLocalDataSource(prefs)
     }
+
 }

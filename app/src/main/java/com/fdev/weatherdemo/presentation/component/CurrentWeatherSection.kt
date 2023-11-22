@@ -2,6 +2,7 @@
 
 package com.fdev.weatherdemo.presentation.component
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -38,63 +41,66 @@ fun CurrentWeatherSection(
     ) {
         Text(
             modifier = Modifier
-                .wrapContentSize(),
+                .fillMaxWidth(),
             text = stringResource(
                 R.string.temperature,
                 currentForecastData?.temp?.toString() ?: thisDay.avgTemp.toString()
             ),
             fontSize = 50.sp,
             fontWeight = FontWeight.SemiBold,
+            textAlign = TextAlign.Center
         )
 
-        GlideImage(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1f),
-            model = currentForecastData?.condition?.icon ?: thisDay.condition?.icon,
-            contentDescription = null,
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = DefaultHzMargin)
-                .padding(bottom = DefaultVtMargin),
-        ) {
-            val modifierTemperature = Modifier
-                .weight(1f)
-                .wrapContentSize()
-
-            WeatherValueItem(modifierTemperature, thisDay.avghumidity, R.string.avghumidity)
-            WeatherValueItem(modifierTemperature, thisDay.maxwindKph, R.string.wind_speed)
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = DefaultHzMargin)
-                .background(color = White, shape = Shapes.large)
-                .padding(vertical = DefaultVtMargin, horizontal = DefaultHzMargin),
-        ) {
-            val modifierTemperature = Modifier
-                .weight(1f)
-                .wrapContentSize()
-
-            WeatherValueItem(
-                modifierTemperature,
-                thisDay.minTemp,
-                R.string.min_temperature
+        if (LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            GlideImage(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                model = currentForecastData?.condition?.icon ?: thisDay.condition?.icon,
+                contentDescription = null,
             )
-            WeatherValueItem(
-                modifierTemperature,
-                thisDay.avgTemp,
-                R.string.avg_temperature
-            )
-            WeatherValueItem(
-                modifierTemperature,
-                thisDay.maxTemp,
-                R.string.max_temperature
-            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = DefaultHzMargin)
+                    .padding(bottom = DefaultVtMargin),
+            ) {
+                val modifierTemperature = Modifier
+                    .weight(1f)
+                    .wrapContentSize()
+
+                WeatherValueItem(modifierTemperature, thisDay.avghumidity, R.string.avghumidity)
+                WeatherValueItem(modifierTemperature, thisDay.maxwindKph, R.string.wind_speed)
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = DefaultHzMargin)
+                    .background(color = White, shape = Shapes.large)
+                    .padding(vertical = DefaultVtMargin, horizontal = DefaultHzMargin),
+            ) {
+                val modifierTemperature = Modifier
+                    .weight(1f)
+                    .wrapContentSize()
+
+                WeatherValueItem(
+                    modifierTemperature,
+                    thisDay.minTemp,
+                    R.string.min_temperature
+                )
+                WeatherValueItem(
+                    modifierTemperature,
+                    thisDay.avgTemp,
+                    R.string.avg_temperature
+                )
+                WeatherValueItem(
+                    modifierTemperature,
+                    thisDay.maxTemp,
+                    R.string.max_temperature
+                )
+            }
         }
     }
 }

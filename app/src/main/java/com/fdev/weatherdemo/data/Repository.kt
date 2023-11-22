@@ -13,11 +13,11 @@ class Repository @Inject constructor(
     suspend fun loadWeatherData(query: String): WeatherData? {
         return try {
             val weatherData = weatherApi.getWeatherFewDaysByCityName(query)
-            localDataSource.saveWeatherData(weatherData)
+            localDataSource.lastWeatherData = weatherData
             weatherData
         } catch (e: Exception) {
             Log.d(Repository::class.simpleName, e.message.toString())
-            localDataSource.getLastWeatherData()
+            null
         }
     }
 }
