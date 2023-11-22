@@ -52,7 +52,7 @@ import com.fdev.weatherdemo.data.entity.ForecastData
 import com.fdev.weatherdemo.data.entity.WeatherData
 import com.fdev.weatherdemo.presentation.MainViewModel
 import com.fdev.weatherdemo.presentation.component.CurrentWeatherSection
-import com.fdev.weatherdemo.presentation.component.LoadingItem
+import com.fdev.weatherdemo.presentation.component.LoadingView
 import com.fdev.weatherdemo.presentation.component.WeatherNextDaysItem
 import com.fdev.weatherdemo.presentation.theme.Background
 import com.fdev.weatherdemo.presentation.theme.Blue
@@ -77,29 +77,29 @@ fun WeatherHomeScreen(viewModel: MainViewModel, listener: OnWeatherSelectListene
             .navigationBarsPadding(),
         containerColor = Background,
         topBar = {
-            topBar(viewModel)
+            TopBar(viewModel)
         }) {
 
         PullRefresh(pullRefreshState)
 
         when (val state = currentWeatherState) {
             is WeatherHomeState.Loading -> {
-                LoadingItem()
+                LoadingView()
             }
 
             is WeatherHomeState.SuccessWeatherHome -> {
-                HomeWeatherSection(state.weatherData, listener)
+                HomeWeatherSectionView(state.weatherData, listener)
             }
 
             is WeatherHomeState.Error -> {
-                Error()
+                ErrorView(state.errorMessageId)
             }
         }
     }
 }
 
 @Composable
-private fun topBar(viewModel: MainViewModel) {
+private fun TopBar(viewModel: MainViewModel) {
     val keyboardController = LocalSoftwareKeyboardController.current
     TextField(
         value = viewModel.searchFieldValue.collectAsState().value,
@@ -163,7 +163,7 @@ private fun PullRefresh(pullRefreshState: PullRefreshState) {
 }
 
 @Composable
-private fun Error() {
+private fun ErrorView(idString: Int) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -176,13 +176,13 @@ private fun Error() {
                 .padding(horizontal = DefaultHzMargin)
                 .align(Alignment.TopCenter),
             textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.error_loading)
+            text = stringResource(id = idString)
         )
     }
 }
 
 @Composable
-private fun HomeWeatherSection(
+private fun HomeWeatherSectionView(
     data: WeatherData,
     listener: OnWeatherSelectListener
 ) {

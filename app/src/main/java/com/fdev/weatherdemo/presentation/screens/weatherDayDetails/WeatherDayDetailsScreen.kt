@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.fdev.weatherdemo.presentation.screens.weatherDayDetails
 
 import androidx.compose.foundation.background

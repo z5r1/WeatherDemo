@@ -12,7 +12,7 @@ import com.fdev.weatherdemo.presentation.theme.Blue
 import com.fdev.weatherdemo.presentation.theme.LightBlue
 
 @Composable
-fun LoadingItem() {
+fun LoadingView() {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier

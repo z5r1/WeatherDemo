@@ -3,7 +3,6 @@ package com.fdev.weatherdemo.utils
 import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -36,7 +35,7 @@ object DateHelper {
         return timestamp
     }
 
-    fun getDate(timestamp: String): Date? {
+    private fun getDate(timestamp: String): Date? {
         for (dateFormat in timestampInputFormats) {
             try {
                 val format = SimpleDateFormat(dateFormat, Locale.getDefault())

@@ -6,5 +6,5 @@ sealed interface WeatherHomeState {
     class SuccessWeatherHome(val weatherData: WeatherData): WeatherHomeState
     class Error(val errorMessageId: Int): WeatherHomeState
 
-    object Loading: WeatherHomeState
+    data object Loading: WeatherHomeState
 }
