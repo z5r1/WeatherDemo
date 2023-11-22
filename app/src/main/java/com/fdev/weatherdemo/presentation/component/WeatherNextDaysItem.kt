@@ -22,7 +22,6 @@ import com.fdev.weatherdemo.presentation.screens.weatherHome.OnWeatherSelectList
 import com.fdev.weatherdemo.presentation.theme.DefaultHzMargin
 import com.fdev.weatherdemo.utils.DateHelper
 
-//@Preview(showBackground = true)
 @Composable
 fun WeatherNextDaysItem(forecastData: ForecastData, listener: OnWeatherSelectListener) {
     Row(

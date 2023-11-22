@@ -3,6 +3,8 @@ package com.fdev.weatherdemo.utils
 import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
@@ -17,6 +19,7 @@ object DateHelper {
     fun getFormattedDateForHours(timestamp: String) =
         getFormattedDate(timestamp, OUTPUT_FORMAT_HOUR)
 
+
     private fun getFormattedDate(
         timestamp: String,
         outputFormat: String,
@@ -24,19 +27,27 @@ object DateHelper {
         val dateFormatter = SimpleDateFormat(outputFormat, Locale.getDefault())
         dateFormatter.timeZone = TimeZone.getTimeZone("GMT")
 
+        val date = getDate(timestamp)
+        if (date != null) {
+            dateFormatter.timeZone = TimeZone.getDefault()
+            return dateFormatter.format(date)
+        }
+
+        return timestamp
+    }
+
+    fun getDate(timestamp: String): Date? {
         for (dateFormat in timestampInputFormats) {
             try {
                 val format = SimpleDateFormat(dateFormat, Locale.getDefault())
                 val date = format.parse(timestamp)
                 if (date != null) {
-                    dateFormatter.timeZone = TimeZone.getDefault()
-                    return dateFormatter.format(date)
+                    return date
                 }
             } catch (e: ParseException) {
                 Log.d(DateHelper::class.simpleName, e.message.toString())
             }
         }
-
-        return timestamp
+        return null
     }
 }
