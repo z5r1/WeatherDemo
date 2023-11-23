@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -54,7 +53,7 @@ fun WeatherDayDetailsScreen(viewModel: MainViewModel, onBackListener: () -> Unit
         }
 
         if (state is WeatherDayDetailsState.DayDayDetails) {
-            DayDetailsWeatherSection(state.weatherData)
+            DayDetailsWeatherSection(state.forecastData)
         }
     }
 }

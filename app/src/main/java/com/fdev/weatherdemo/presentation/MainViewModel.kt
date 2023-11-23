@@ -35,10 +35,6 @@ class MainViewModel @Inject constructor(private val getWeatherUseCase: GetWeathe
     private val _searchFieldValue = MutableStateFlow(DEFAULT_SEARCH_CITY)
     val searchFieldValue = _searchFieldValue.asStateFlow()
 
-    init {
-        searchWeather()
-    }
-
     fun updateSearchField(input: String) {
         _searchFieldValue.value = input
     }
